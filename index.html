@@ -1,0 +1,670 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="1-launch-codespaces/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
+    
+    
+      
+        <title>Azure AI Inference: Workshop</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.76a95c52.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#welcome-learners" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Azure AI Inference: Workshop" class="md-header__button md-logo" aria-label="Azure AI Inference: Workshop" data-md-component="logo">
+      
+  <img src="img/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Azure AI Inference: Workshop
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Welcome Learners!
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="pink" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Azure AI Inference: Workshop" class="md-nav__button md-logo" aria-label="Azure AI Inference: Workshop" data-md-component="logo">
+      
+  <img src="img/logo.svg" alt="logo">
+
+    </a>
+    Azure AI Inference: Workshop
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Welcome Learners!
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Welcome Learners!
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Learning Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pre-requisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Pre-Requisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-supported-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Supported Models
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-related-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Related Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-get-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Get Started
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1-launch-codespaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Launch Codespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2-deploy-models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Deploy Models For Usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3-run-samples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Sample Scripts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-learning-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Learning Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pre-requisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Pre-Requisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-supported-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Supported Models
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-related-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Related Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-get-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Get Started
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="welcome-learners">Welcome Learners!</h1>
+<h2 id="1-motivation">1. Motivation</h2>
+<p>Building generative AI applications involves working with a wide range of language models from diverse providers.</p>
+<ul>
+<li>Language models can be large (LLM) or small (SLM) in terms of model size and complexity.</li>
+<li>Models can be proprietary (e.g., GPT-4 from OpenAI) or open-source (e.g., GPT-2 from HuggingFace).</li>
+<li>Models can differ in their capabilities (text generation, embedding) and API features (config parameters, system prompt, stop words etc.)</li>
+</ul>
+<p>This creates a challenge for AI application developers when interacting with these models - particularly when they want to evaluate diverse models, or switch to a different model later.</p>
+<h2 id="2-introduction">2. Introduction</h2>
+<p>The <a href="https://learn.microsoft.com/azure/machine-learning/reference-model-inference-api">Azure AI Model Inference API</a> tries addresses this challenge by providing a <strong>unified API</strong> that abstracts the differences between the various models into common API calls for convenience - while providing <em>extensibility</em> to support model-specific features.</p>
+<p>Developers can now focus on building their applications for a <em>specific capability</em> without worrying about how that capability is implemented in a specific model instance.</p>
+<h2 id="3-learning-objectives">3. Learning Objectives</h2>
+<p>In this workshop, we'll explore the Azure AI Model Inference API from core concepts to applied usage with various models and inference tasks. </p>
+<p>By the end of the workshop you should be able to:</p>
+<ol>
+<li>Describe the Azure AI Inference API capabilities</li>
+<li>Describe the benefits of using the unified API</li>
+<li>Configure your application to use the unified API</li>
+<li>Use Inference API with diverse deployed models</li>
+<li>Ensure responsible AI with content safety tooling </li>
+</ol>
+<h2 id="4-pre-requisites">4. Pre-Requisites</h2>
+<ul>
+<li>Python 3.8 or higher</li>
+<li>Azure Subscription</li>
+<li>Model Deployments (Azure AI Studio)</li>
+<li>Authentication Credentials</li>
+</ul>
+<p>Model deployments will have default <em>key, endpoint, region</em> properties.</p>
+<ul>
+<li>Use endpoint for initializing the inference API library.</li>
+<li>Use key to create a traditional authentication credential if preferred.</li>
+<li>Alternatively, use Microsoft Entra ID (32-character string) for a secure managed identity solution.</li>
+</ul>
+<p>Check out the <a href="https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-inference/README.md#prerequisites">samples README</a> for updated requirements.</p>
+<h2 id="5-supported-models">5. Supported Models</h2>
+<p>Currently, we can deploy models in the Azure AI platform in one of two ways:</p>
+<ul>
+<li><strong>Managed Compute Endpoints</strong> - using Models as a Platform (MaaP) with subscription based pricing for <a href="https://learn.microsoft.com/en-us/azure/machine-learning/concept-endpoints-online?view=azureml-api-2"><em>managed inference</em></a> capability.</li>
+<li><strong>Serveless API Endpoints</strong> - using Models As a Service (MaaS) with token-based billing for <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-deploy-models-serverless?view=azureml-api-2&amp;tabs=azure-studio"><em>pay as you go</em></a> inference capability.</li>
+</ul>
+<p>Currently <a href="https://learn.microsoft.com/en-us/azure/machine-learning/reference-model-inference-api?view=azureml-api-2&amp;tabs=python#availability">only a subset of these models are available</a> for use with the Azure AI Inference API.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Azure Inference API</th>
+<th style="text-align: left;">Managed</th>
+<th style="text-align: left;">Serverless</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Cohere Embed V3 family</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cohere Command R  family</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Meta LLama 2 chat family</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Meta Llama 3 instruct family</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Phi-3 family</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mistral-Small</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mistral-Large</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mixtral family</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">✅</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-related-resources">6. Related Resources</h2>
+<ol>
+<li>Docs - <a href="https://learn.microsoft.com/azure/machine-learning/reference-model-inference-api">Azure AI Model Inference API</a> </li>
+<li>Docs - <a href="https://learn.microsoft.com/en-us/python/api/overview/azure/ai-inference-readme">Azure AI Inference Library (Python)</a> </li>
+<li>Docs - <a href="https://learn.microsoft.com/python/api/azure-ai-inference/azure.ai.inference">AI Model Inferene Package (Python)</a> </li>
+<li>Repo - <a href="https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/ai/azure-ai-inference/samples">Azure AI Inference Samples (Python)</a> </li>
+<li>Docs - <a href="https://learn.microsoft.com/azure/ai-studio/concepts/deployments-overview">Deploy models .. with Azure AI Studio</a></li>
+<li>Video - <a href="https://build.microsoft.com/en-US/sessions/6809f536-19ee-4b8d-aa06-dfde657c6b90?source=sessions">Accelerate your AI Journey with Azure AI Model Catalog</a></li>
+<li>Slides - <a href="https://medius.microsoft.com/video/asset/PPT/c8af97e4-0dc5-4eee-b2fe-1f15be58bab7">Accelerate your AI Journey with Azure AI Model Catalog</a></li>
+</ol>
+<h2 id="7-get-started">7. Get Started</h2>
+<p>You are hopefully viewing this page in the preview editor or browser. To get started, just move to the next section of this guide as seen in the sidebar.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>

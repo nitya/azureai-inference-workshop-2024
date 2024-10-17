@@ -1,0 +1,1425 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Using the Azure Inference API for Rapid Prototyping">
+      
+      
+        <meta name="author" content="Nitya Narasimhan">
+      
+      
+        <link rel="canonical" href="https://nitya.github.io/azureai-inference-workshop-2024/2-OpenAI-Models/2-o1-Party-Cooking/03-Result-o1-Preview/">
+      
+      
+        <link rel="prev" href="../02-Result-o1-Mini/">
+      
+      
+        <link rel="next" href="../../../Resources/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.41">
+    
+    
+      
+        <title>03 | Using o1-Preview - Azure AI Model Inference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#03-using-o1-preview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Azure AI Model Inference" class="md-header__button md-logo" aria-label="Azure AI Model Inference" data-md-component="logo">
+      
+  <img src="../../../img/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Azure AI Model Inference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              03 | Using o1-Preview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nitya/azure-inference-workshop-2024" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nitya/azure-inference-workshop-2024
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../1-Introduction/" class="md-tabs__link">
+          
+  
+    
+  
+  1 Introduction
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  2 OpenAI Models
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Resources/" class="md-tabs__link">
+          
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Azure AI Model Inference" class="md-nav__button md-logo" aria-label="Azure AI Model Inference" data-md-component="logo">
+      
+  <img src="../../../img/logo.svg" alt="logo">
+
+    </a>
+    Azure AI Model Inference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nitya/azure-inference-workshop-2024" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nitya/azure-inference-workshop-2024
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../1-Introduction/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    1 Introduction
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            1 Introduction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-Introduction/2-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-Introduction/3-quickstart/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Quickstart
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    2 OpenAI Models
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            2 OpenAI Models
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1 Reasoning Models
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            1 Reasoning Models
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1-Reasoning-Models/00-Overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    0 | FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1-Reasoning-Models/01-Prompts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 | Prompting Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1-Reasoning-Models/02-Resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 | Related Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2 o1 Party Cooking
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            2 o1 Party Cooking
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-Prompt-Input/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    00 | Define The Task
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-Result-gpt-40/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    01 | Using gpt-4o
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-Result-o1-Mini/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    02 | Using o1-Mini
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    03 | Using o1-Preview
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../Resources/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Resources
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="03-using-o1-preview">03 | Using <code>o1-Preview</code><a class="headerlink" href="#03-using-o1-preview" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Observations on Process</p>
+<ul>
+<li>Thought for 96 seconds</li>
+<li>Expected it to combine prep for similar things - it did not</li>
+<li>Curious to know how this is impacted if we ask for shopping list</li>
+<li>Speaks in first person ("I") - anthopomorphizing the AI?</li>
+<li>Some reasoning leaps were !!! - factors time for "reheating" food</li>
+<li><strong>Challenge</strong>: Thanksgiving Meal Planning!</li>
+</ul>
+</div>
+<details class="example">
+<summary>Documented its thought process</summary>
+<p><strong>Transcribing recipes</strong><br/>
+Piecing together the steps to rewrite the recipes, resize ingredients, and format them succinctly and clearly.</p>
+<p><strong>Tailoring recipes</strong><br/>
+I’m thinking through how to adjust recipes to serve 6 guests, ensuring each one gets the right portions of Papri Chaat, Biryani, and Besan Laddu. Anjeun</p>
+<p><strong>Formulating the plan</strong><br/>
+I’m working through the cooking schedule, ensuring dishes are punctual by 6pm with a 30-minute cleanup. This involves calculating prep and cooking times, scheduling tasks, and managing nutrition and allergens.</p>
+<p><strong>Tweaking recipes</strong><br/>
+I’m adjusting the recipes to serve 6 guests. Papri Chaat and Veg Biryani servings are bumped up. Besan Laddu stays at 15 servings as it easily covers 12.</p>
+<p><strong>Adjusting ingredient ratios</strong><br/>
+I’m calculating the scaling factors for each dish: 1.5 for Papri Chaat, 1.2 for Veg Biryani, and 0.8 for Besan Laddu. Now, I’ll adjust the ingredient quantities accordingly.</p>
+<p><strong>Gathering ingredients</strong><br/>
+OK, let me see. I’m compiling the essential ingredients for Papri Chaat, including chickpeas, potatoes, spices, and chutneys. This set of items will be crucial for preparing flavorsome papri chaat for six.</p>
+<p><strong>Tweaking ingredients</strong><br/>
+OK, let me see. I’m updating our recipe for 6 servings, tweaking the ingredients and concise instructions. It’s interesting to see how small changes align the recipe perfectly.</p>
+<p><strong>Scaling ingredients</strong><br/>
+OK, I’m figuring out the ingredient adjustments for making Papri Chaat and chutneys for 6 servings by multiplying each ingredient by 1.5.</p>
+<p><strong>Adjusting serving sizes</strong><br/>
+I’m tweaking the Veg Biryani recipe to scale it from 5 to 6 servings, considering the specific needs and preferences of the family.</p>
+<p><strong>Scaling ingredient portions</strong><br/>
+OK, let's think through increasing the scale. Multiplying each ingredient by 1.2 ensures the recipe size grows consistently. This method works for all quantities, including rice, veggies, herbs, spices, and yogurt.</p>
+<p><strong>Adjusting serving sizes</strong><br/>
+I'm working through modifying a Besan Laddu recipe to yield 12 serving sizes instead of 15. This efficient tweak simplifies preparation.</p>
+<p>Multiplying ingredients by 0.8 enhances the Papri Chaat recipe's scale, improving taste and texture. Each ingredient is adjusted for the correct proportions.</p>
+<p><strong>Cooking and blending chutneys</strong><br/>
+I’m making chickpeas and potatoes, blending mint-coriander chutney, and tamarind-date chutney with jaggery. Agua.chutney is optional and I’m assembling papdi chaat with toppings and yogurt.</p>
+<p><strong>Gathering ingredients</strong><br/>
+I’m pulling together the ingredients for vegetable biryani, including basmati rice, various vegetables, ghee, yogurt, and assorted spices. This mixes fresh herbs with rich flavors for a classic dish.</p>
+<p><strong>Crafting the buffet</strong><br/>
+I’m sifting through the steps: soaking and cooking basmati rice, sautéing spices and onions, adding yogurt and vegetables, layering with rice, and finishing with chopped herbs and saffron milk.</p>
+<p><strong>Stoking flavors</strong><br/>
+I'm heating the heavy pan to a medium-low setting, then adding besan while stirring continuously. This brings a rich, continuous flavor to the mixture.</p>
+<p><strong>Crafting ladoos</strong><br/>
+Adding powdered sugar, cardamom, raisins, and cashews to the mixture, mixing thoroughly to achieve a cohesive batter. After cooling, shaping into small ladoos, and storing them in an airtight container.</p>
+<p><strong>Mapping out cooking times</strong><br/>
+I'm figuring out the cooking times for Veg Biryani and Besan Laddu, which total 1 hour and 30 minutes and 30 minutes respectively. I need to soak chickpeas for Papri Chaat 8 hours before cooking.</p>
+<p><strong>Making practical choices</strong><br/>
+Utilizing canned chickpeas, prepping chutneys in advance, and preparing Besan Laddu earlier enhances efficiency, with final Papri Chaat assembly just before serving.</p>
+<p><strong>Taking a closer look</strong><br/>
+I'm piecing together the Papri Chaat, focusing on assembling it fresh while preparing its ingredients in advance. The biryani, on the other hand, will be cooked and kept warm.</p>
+<p><strong>Organizing and preparing</strong><br/>
+Mapping out a detailed schedule to ensure a smooth cooking process, I start with soaking chickpeas and making chutneys in the morning, then move on to biryani and Papri Chaat preparations in the afternoon.</p>
+<p><strong>Tweaking cooking times</strong><br/>
+I’m adjusting cooking times to ensure everything is just right, aiming for optimal precision.</p>
+<p><strong>Crafting the schedule</strong><br/>
+Preparing for a party involves meticulous steps, including soaking chickpeas, preparing chutneys, and crafting papdi. The day of the party starts early with tasks like soaking rice, making Besan Laddu, and boiling chickpeas.</p>
+<p><strong>Preparing and cooking</strong><br/>
+First, I chop vegetables for biryani and chaat. Then, I cook rice for biryani, prepare the gravy, assemble the dish, and finally, set it to simmer.</p>
+<p><strong>Ensuring a seamless experience</strong><br/>
+Preparing Papri Chaat components, setting the table, and finalizing biryani reheating and cleanup to host guests at 6:30 PM.</p>
+<p><strong>Figuring out Prep Times</strong><br/>
+I'm laying out the prep steps for Papri Chaat, Veg Biryani, and Besan Laddu. Soaking chickpeas, chutney preparation, and assembling are crucial for Papri Chaat, while Veg Biryani and Besan Laddu need cooking and assembling. Calculating nutritional intake next.</p>
+<p><strong>Calculating calorie intake</strong><br/>
+I’m mapping out the calorie content of each dish and totalizing it per guest—706 kcal for Papri Chaat, 437 kcal for Veg Biryani, and 310 kcal for Besan Laddus.</p>
+<p><strong>Analyzing nutritional content</strong><br/>
+I calculated the nutritional values for Papri Chaat, Veg Biryani, and Besan Laddu, totaling 1,453 kcal, 242g carbs, 42g protein, 42g fat, 18g saturated fat, 39g fiber, and 97g sugar per guest.</p>
+<p><strong>Identifying allergens</strong><br/>
+Piecing together ingredients, I note that dairy and nuts are potential allergens in these recipes. Papri Chaat, Veg Biryani, and Besan Laddu each utilize these ingredients. No seafood is present.</p>
+</details>
+<details class="success">
+<summary>Delivered the Output!!</summary>
+<p><strong>1. Adjusted Recipes</strong></p>
+<hr />
+<p><strong>Papri Chaat (6 Servings)</strong></p>
+<p><em>Ingredients:</em></p>
+<ul>
+<li><strong>For Cooking Chickpeas and Potatoes:</strong></li>
+<li>1.5 cups dried chickpeas (or 4.5 cups cooked/canned chickpeas)</li>
+<li>3 cups water</li>
+<li>¾ teaspoon salt</li>
+<li>
+<p>2 medium potatoes</p>
+</li>
+<li>
+<p><strong>For Papdi Chaat Assembly:</strong></p>
+</li>
+<li>40–45 papdi (crispy flour crackers)</li>
+<li>1.5 cups plain yogurt, whisked</li>
+<li>1.5 onions, finely chopped (optional)</li>
+<li>1.5 tomatoes, finely chopped (optional)</li>
+<li>½ cup chopped coriander leaves</li>
+<li>¾ cup Mint-Coriander Chutney (see below)</li>
+<li>¾ cup Tamarind-Date Chutney (see below)</li>
+<li>⅓ cup Chili Garlic Chutney (optional, see below)</li>
+<li>1.5 teaspoons roasted cumin powder</li>
+<li>1.5 to 3 teaspoons chaat masala</li>
+<li>1.5 teaspoons black salt or regular salt (adjust to taste)</li>
+<li>⅓ to ½ cup pomegranate arils (optional)</li>
+<li>1.5 to 3 teaspoons lemon juice (optional)</li>
+<li>
+<p>¾ cup sev (crispy chickpea noodles, optional)</p>
+</li>
+<li>
+<p><strong>For Mint-Coriander Chutney:</strong></p>
+</li>
+<li>1.5 cups chopped mint leaves</li>
+<li>¾ cup chopped coriander leaves</li>
+<li>1.5 green chilies, chopped</li>
+<li>1.5 to 3 teaspoons lemon juice</li>
+<li>
+<p>Salt to taste</p>
+</li>
+<li>
+<p><strong>For Tamarind-Date Chutney:</strong></p>
+</li>
+<li>¾ cup tamarind</li>
+<li>¾ cup seedless dates</li>
+<li>¾ cup jaggery</li>
+<li>¾ teaspoon dry ginger powder</li>
+<li>1.5 teaspoons coriander powder</li>
+<li>1.5 teaspoons roasted cumin powder</li>
+<li>¾ teaspoon red chili powder (optional)</li>
+<li>3 cups water</li>
+<li>
+<p>Salt to taste</p>
+</li>
+<li>
+<p><strong>For Chili Garlic Chutney (Optional):</strong></p>
+</li>
+<li>27–30 garlic cloves</li>
+<li>1 tablespoon Kashmiri red chili powder</li>
+<li>⅜ teaspoon salt</li>
+<li>3 to 4.5 tablespoons water</li>
+</ul>
+<p><em>Instructions:</em></p>
+<ol>
+<li><strong>Prepare Chickpeas and Potatoes:</strong></li>
+<li>Soak chickpeas overnight. Drain and rinse.</li>
+<li>Cook chickpeas with water and salt until tender.</li>
+<li>
+<p>Boil potatoes until soft, cool, and chop.</p>
+</li>
+<li>
+<p><strong>Make Chutneys:</strong></p>
+</li>
+<li><strong>Mint-Coriander Chutney:</strong> Blend all ingredients until smooth.</li>
+<li><strong>Tamarind-Date Chutney:</strong> Boil tamarind and dates in water until soft. Add jaggery and spices, cook until jaggery melts. Cool and blend until smooth.</li>
+<li>
+<p><strong>Chili Garlic Chutney (Optional):</strong> Blend all ingredients until smooth.</p>
+</li>
+<li>
+<p><strong>Assemble Papri Chaat:</strong></p>
+</li>
+<li>Arrange papdi on plates.</li>
+<li>Top with chickpeas, potatoes, onions, and tomatoes.</li>
+<li>Sprinkle cumin powder, chaat masala, and salt.</li>
+<li>Drizzle yogurt and chutneys as per taste.</li>
+<li>Garnish with coriander leaves, pomegranate arils, lemon juice, and sev.</li>
+<li>Serve immediately.</li>
+</ol>
+<hr />
+<p><strong>Vegetable Biryani (6 Servings)</strong></p>
+<p><em>Ingredients:</em></p>
+<ul>
+<li><strong>For Rice:</strong></li>
+<li>1.8 cups basmati rice (about 360 grams)</li>
+<li>Water for soaking and cooking</li>
+<li>4 green cardamoms</li>
+<li>1 black cardamom</li>
+<li>4 cloves</li>
+<li>1.2-inch cinnamon stick</li>
+<li>1–2 bay leaves</li>
+<li>3 mace strands</li>
+<li>
+<p>1.2 teaspoons salt</p>
+</li>
+<li>
+<p><strong>For Vegetable Gravy:</strong></p>
+</li>
+<li>3.6 tablespoons ghee or oil</li>
+<li>1.2 teaspoons shah jeera (caraway seeds)</li>
+<li>1–2 bay leaves</li>
+<li>4 green cardamoms</li>
+<li>1 black cardamom</li>
+<li>1.2-inch cinnamon stick</li>
+<li>1.2 cups plain yogurt, whisked</li>
+<li>0.6 teaspoon turmeric powder</li>
+<li>1.2 teaspoons red chili powder</li>
+<li>2.4 tablespoons cashews</li>
+<li>1.2 tablespoons raisins</li>
+<li>2.4 tablespoons almonds, sliced</li>
+<li>
+<p>Salt to taste</p>
+</li>
+<li>
+<p><strong>Vegetables and Herbs:</strong></p>
+</li>
+<li>1.8 cups cauliflower florets</li>
+<li>1.2 cups chopped potatoes</li>
+<li>0.6 cup chopped carrots</li>
+<li>0.3 cup chopped French beans</li>
+<li>10–12 mushrooms, sliced (optional)</li>
+<li>0.3 cup chopped bell pepper (optional)</li>
+<li>0.6 cup green peas</li>
+<li>1.2 cups thinly sliced onions</li>
+<li>1.8 tablespoons finely chopped ginger</li>
+<li>1.2 tablespoons finely chopped garlic</li>
+<li>2–3 green chilies, slit</li>
+<li>0.4 cup chopped coriander leaves</li>
+<li>
+<p>0.4 cup chopped mint leaves</p>
+</li>
+<li>
+<p><strong>For Layering:</strong></p>
+</li>
+<li>5–6 tablespoons warm milk</li>
+<li>0.3 teaspoon saffron strands</li>
+<li>2.4 teaspoons rose water or kewra water</li>
+</ul>
+<p><em>Instructions:</em></p>
+<ol>
+<li><strong>Cook Rice:</strong></li>
+<li>Soak rice for 30 minutes. Drain.</li>
+<li>
+<p>Boil rice with spices and salt until ¾ cooked. Drain and set aside.</p>
+</li>
+<li>
+<p><strong>Prepare Vegetable Gravy:</strong></p>
+</li>
+<li>Heat ghee/oil in a pan. Add spices and sauté until fragrant.</li>
+<li>Add onions and cook until golden brown.</li>
+<li>Add ginger, garlic, and green chilies. Sauté briefly.</li>
+<li>Add turmeric and red chili powder. Mix well.</li>
+<li>Add vegetables and sauté for 2–3 minutes.</li>
+<li>Lower heat and add whisked yogurt. Stir continuously.</li>
+<li>Add 1 cup water and salt. Cook until vegetables are tender and gravy is medium-thick.</li>
+<li>
+<p>Stir in cashews, raisins, and almonds.</p>
+</li>
+<li>
+<p><strong>Layer and Cook Biryani:</strong></p>
+</li>
+<li>In a heavy-bottomed pan, layer half the vegetable gravy.</li>
+<li>Add a layer of half the cooked rice.</li>
+<li>Sprinkle half the coriander, mint leaves, and saffron-infused milk.</li>
+<li>Repeat layers with remaining gravy, rice, herbs, and saffron milk.</li>
+<li>Drizzle rose water or kewra water on top.</li>
+<li>Seal the pan with foil and a tight-fitting lid.</li>
+<li>Cook on low heat for 30–35 minutes or bake in a preheated oven at 180°C (356°F) for 30–40 minutes.</li>
+<li>Let it rest for 5–7 minutes before serving.</li>
+</ol>
+<hr />
+<p><strong>Besan Laddu (12 Servings)</strong></p>
+<p><em>Ingredients:</em></p>
+<ul>
+<li>1.6 cups gram flour (besan) (~160 grams)</li>
+<li>0.4 cup ghee (~100 grams)</li>
+<li>0.8 cup powdered sugar (~140 grams)</li>
+<li>0.8 teaspoon cardamom powder</li>
+<li>1–1.6 tablespoons golden raisins, chopped</li>
+<li>8–10 cashews, finely chopped</li>
+</ul>
+<p><em>Instructions:</em></p>
+<ol>
+<li><strong>Roast Besan:</strong></li>
+<li>
+<p>Dry roast besan in a heavy pan on low to medium-low heat for 10–12 minutes, stirring continuously.</p>
+</li>
+<li>
+<p><strong>Add Ghee and Continue Roasting:</strong></p>
+</li>
+<li>Add ghee to the roasted besan.</li>
+<li>
+<p>Roast for another 12–15 minutes until the mixture is aromatic and releases ghee.</p>
+</li>
+<li>
+<p><strong>Mix in Sugar and Nuts:</strong></p>
+</li>
+<li>Remove from heat.</li>
+<li>Add powdered sugar, cardamom powder, raisins, and cashews.</li>
+<li>
+<p>Mix thoroughly to combine.</p>
+</li>
+<li>
+<p><strong>Shape Laddu:</strong></p>
+</li>
+<li>Allow the mixture to cool until warm.</li>
+<li>Shape into small balls with your hands.</li>
+<li>Store in an airtight container.</li>
+</ol>
+<hr />
+<p><strong>2. Cooking Schedule</strong></p>
+<p><strong>Prior Day:</strong></p>
+<ul>
+<li>
+<p><strong>8:00 PM:</strong> Soak 1.5 cups chickpeas overnight.</p>
+</li>
+<li>
+<p><strong>Prepare Chutneys and Papdi (Optional):</strong></p>
+</li>
+<li>Make all chutneys and store them in the refrigerator.</li>
+<li>Prepare papdi if making at home, or purchase ready-made.</li>
+</ul>
+<hr />
+<p><strong>Day of the Party:</strong></p>
+<p><strong>Morning:</strong></p>
+<ul>
+<li>
+<p><strong>8:00 AM – 8:30 AM:</strong> Make Besan Laddu; allow them to cool and store.</p>
+</li>
+<li>
+<p><strong>8:30 AM – 9:00 AM:</strong> Boil potatoes for Papri Chaat; cool and chop.</p>
+</li>
+<li>
+<p><strong>9:00 AM – 10:00 AM:</strong> Cook soaked chickpeas until tender; set aside.</p>
+</li>
+</ul>
+<p><strong>Afternoon:</strong></p>
+<ul>
+<li>
+<p><strong>12:00 PM – 12:30 PM:</strong> Chop all vegetables for Biryani and Papri Chaat.</p>
+</li>
+<li>
+<p><strong>12:30 PM – 2:00 PM:</strong> Prepare Vegetable Biryani.</p>
+</li>
+<li>
+<p>Soak rice, cook rice and gravy, layer, and start dum cooking.</p>
+</li>
+<li>
+<p><strong>2:00 PM – 2:30 PM:</strong> Allow Biryani to rest; keep warm.</p>
+</li>
+<li>
+<p><strong>2:30 PM – 3:30 PM:</strong> Prepare Papri Chaat components.</p>
+</li>
+<li>Chop onions, tomatoes, coriander, and pomegranate arils.</li>
+<li>Whisk yogurt; refrigerate.</li>
+<li>
+<p>Arrange papdi and toppings for easy assembly.</p>
+</li>
+<li>
+<p><strong>3:30 PM – 4:30 PM:</strong> Take a break or attend to other preparations.</p>
+</li>
+</ul>
+<p><strong>Evening:</strong></p>
+<ul>
+<li><strong>4:30 PM – 5:30 PM:</strong> Set the table and serving areas.</li>
+<li>
+<p>Reheat Biryani if necessary.</p>
+</li>
+<li>
+<p><strong>5:30 PM – 6:00 PM:</strong> Final cleanup of the kitchen.</p>
+</li>
+<li>
+<p><strong>6:00 PM – 6:30 PM:</strong> Get ready to receive guests.</p>
+</li>
+<li>
+<p><strong>6:30 PM – 7:00 PM:</strong> Guests begin to arrive.</p>
+</li>
+<li>
+<p><strong>Just Before Serving (Around 6:50 PM):</strong></p>
+</li>
+<li>Assemble Papri Chaat quickly to ensure freshness.</li>
+</ul>
+<hr />
+<p><strong>3. Nutritional Intake per Guest</strong></p>
+<ul>
+<li><strong>Papri Chaat:</strong> 706 kcal</li>
+<li>Carbohydrates: 139g</li>
+<li>Protein: 22g</li>
+<li>Fat: 13g</li>
+<li>Fiber: 28g</li>
+<li>
+<p>Sugar: 67g</p>
+</li>
+<li>
+<p><strong>Vegetable Biryani:</strong> 437 kcal</p>
+</li>
+<li>Carbohydrates: 67g</li>
+<li>Protein: 12g</li>
+<li>Fat: 15g</li>
+<li>Fiber: 7g</li>
+<li>
+<p>Sugar: 10g</p>
+</li>
+<li>
+<p><strong>Besan Laddu (2 pieces):</strong> 310 kcal</p>
+</li>
+<li>Carbohydrates: 36g</li>
+<li>Protein: 8g</li>
+<li>Fat: 14g</li>
+<li>Fiber: 4g</li>
+<li>Sugar: 20g</li>
+</ul>
+<p><strong>Total per Guest:</strong></p>
+<ul>
+<li><strong>Calories:</strong> <strong>1,453 kcal</strong></li>
+<li><strong>Carbohydrates:</strong> 242g</li>
+<li><strong>Protein:</strong> 42g</li>
+<li><strong>Fat:</strong> 42g</li>
+<li><strong>Fiber:</strong> 39g</li>
+<li><strong>Sugar:</strong> 97g</li>
+</ul>
+<hr />
+<p><strong>4. Allergen Warning</strong></p>
+<p><strong>Please Note:</strong></p>
+<ul>
+<li><strong>Dairy:</strong> Papri Chaat, Vegetable Biryani, and Besan Laddu contain dairy products such as yogurt, ghee, and milk.</li>
+<li><strong>Nuts:</strong> Vegetable Biryani and Besan Laddu contain nuts, including cashews and almonds.</li>
+<li><strong>Seafood:</strong> None of the recipes contain seafood.</li>
+</ul>
+<p><strong>If any of your guests have allergies to dairy or nuts, please inform them accordingly or consider preparing alternative options.</strong></p>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../02-Result-o1-Mini/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 02 | Using o1-Mini">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                02 | Using o1-Mini
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../Resources/" class="md-footer__link md-footer__link--next" aria-label="Next: Resources">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Resources
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - present Nitya Narasimhan
+
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "navigation.footer", "content.code.copy", "content.code.select", "content.code.clipboard"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
